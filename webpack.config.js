@@ -1,20 +1,20 @@
-import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: path.join(__dirname, "src", "index.js"),
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist"),
   },
-  plugin: [
+  plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "index.html"),
+      template: path.join(__dirname, "public", "index.html"),
     }),
   ],
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.?js$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -23,9 +23,13 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
     ],
-    devServer: {
-      port: 3000,
-    },
+  },
+  devServer: {
+    port: 3000,
   },
 };
